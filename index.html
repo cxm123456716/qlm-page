@@ -1,0 +1,92 @@
+
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>祺黎明</title>
+<style>
+body{
+  margin:0;height:100vh;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  font-family:-apple-system;color:#fff;
+}
+.card{
+  width:90%;max-width:390px;
+  margin:auto;top:50%;
+  transform:translateY(-50%);
+  position:relative;
+  padding:36px;
+  border-radius:44px;
+  background:rgba(255,255,255,.12);
+  backdrop-filter:blur(26px);
+}
+h1{
+  margin:0;
+  font-size:38px;
+  text-align:center;
+}
+.grid{
+  margin-top:36px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+.btn{
+  padding:22px 10px;
+  border-radius:28px;
+  text-align:center;
+  font-weight:600;
+  font-size:16px;
+  cursor:pointer;
+  user-select:none;
+}
+.main{background:#fff;color:#000;}
+.sub{background:rgba(255,255,255,.18);}
+.addr{
+  margin-top:26px;
+  font-size:12px;
+  opacity:.45;
+  text-align:center;
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1 id="logo">祺黎明</h1>
+
+  <div class="grid">
+    <div class="btn main" onclick="openTG()">TG频道</div>
+    <div class="btn sub" onclick="copyQQ()">复制QQ</div>
+  </div>
+
+  <div class="addr">http://{{ip}}:{{port}}</div>
+</div>
+
+<script>
+function openTG(){
+  location.href="tg://resolve?domain=qlmnb6";
+}
+function copyQQ(){
+  navigator.clipboard.writeText("3172881042");
+  alert("QQ 已复制");
+}
+
+/* 隐藏管理员入口：长按 Logo 2 秒 */
+let timer;
+const logo = document.getElementById("logo");
+
+["touchstart","mousedown"].forEach(e=>{
+  logo.addEventListener(e,()=>{
+    timer = setTimeout(()=>{
+      location.href="/admin";
+    },2000);
+  });
+});
+
+["touchend","mouseup","mouseleave"].forEach(e=>{
+  logo.addEventListener(e,()=>clearTimeout(timer));
+});
+</script>
+</body>
+</html>
+"""
