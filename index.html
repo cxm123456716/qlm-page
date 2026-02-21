@@ -1,62 +1,147 @@
-
 <!doctype html>
-<html>
+<html lang="zh">
 <head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>祺黎明</title>
+
 <style>
+:root{
+  --neon:#5efcff;
+  --neon2:#a855f7;
+}
+
+*{box-sizing:border-box}
+
 body{
-  margin:0;height:100vh;
-  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-  font-family:-apple-system;color:#fff;
+  margin:0;
+  height:100vh;
+  font-family:-apple-system,BlinkMacSystemFont;
+  color:#fff;
+  overflow:hidden;
+  background:#000;
 }
+
+/* 🌈 动态渐变背景 */
+body::before{
+  content:"";
+  position:fixed;
+  inset:-40%;
+  background:
+    radial-gradient(circle at 20% 30%, #5efcff55, transparent 40%),
+    radial-gradient(circle at 80% 70%, #a855f755, transparent 40%),
+    linear-gradient(135deg,#050505,#0b1c22,#120b24);
+  animation: moveBg 18s linear infinite;
+}
+
+@keyframes moveBg{
+  0%{transform:rotate(0deg)}
+  100%{transform:rotate(360deg)}
+}
+
+/* 💎 主卡片 */
 .card{
-  width:90%;max-width:390px;
-  margin:auto;top:50%;
-  transform:translateY(-50%);
-  position:relative;
-  padding:36px;
-  border-radius:44px;
+  position:absolute;
+  inset:0;
+  margin:auto;
+  width:90%;
+  max-width:390px;
+  height:max-content;
+  padding:38px 34px 42px;
+  border-radius:42px;
   background:rgba(255,255,255,.12);
-  backdrop-filter:blur(26px);
+  backdrop-filter:blur(30px) saturate(160%);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.12),
+    0 30px 80px rgba(0,0,0,.6);
 }
+
+/* 🌀 Logo */
 h1{
   margin:0;
-  font-size:38px;
   text-align:center;
+  font-size:40px;
+  letter-spacing:6px;
+  background:linear-gradient(90deg,var(--neon),var(--neon2));
+  -webkit-background-clip:text;
+  color:transparent;
+  animation: glow 3s ease-in-out infinite alternate;
 }
+
+@keyframes glow{
+  from{text-shadow:0 0 8px var(--neon)}
+  to{text-shadow:0 0 20px var(--neon2)}
+}
+
+/* 🔲 按钮网格 */
 .grid{
-  margin-top:36px;
+  margin-top:40px;
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:18px;
 }
+
 .btn{
   padding:22px 10px;
   border-radius:28px;
   text-align:center;
+  font-size:15px;
   font-weight:600;
-  font-size:16px;
   cursor:pointer;
   user-select:none;
+  position:relative;
+  transition:.35s ease;
+  overflow:hidden;
 }
-.main{background:#fff;color:#000;}
-.sub{background:rgba(255,255,255,.18);}
+
+/* 主按钮 */
+.main{
+  background:linear-gradient(135deg,var(--neon),var(--neon2));
+  color:#000;
+  box-shadow:0 0 20px #5efcff55;
+}
+
+/* 副按钮 */
+.sub{
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.25);
+}
+
+/* ✨ hover 动效 */
+.btn:hover{
+  transform:translateY(-4px) scale(1.03);
+}
+.btn::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.45),transparent);
+  transform:translateX(-100%);
+}
+.btn:hover::after{
+  transform:translateX(100%);
+  transition:.6s;
+}
+
+/* 📍 地址 */
 .addr{
-  margin-top:26px;
+  margin-top:28px;
   font-size:12px;
   opacity:.45;
   text-align:center;
+  letter-spacing:.5px;
 }
 </style>
 </head>
+
 <body>
+
 <div class="card">
   <h1 id="logo">祺黎明</h1>
 
   <div class="grid">
-    <div class="btn main" onclick="openTG()">TG频道</div>
-    <div class="btn sub" onclick="copyQQ()">复制QQ</div>
+    <div class="btn main" onclick="openTG()">TG 频道</div>
+    <div class="btn sub" onclick="copyQQ()">复制 QQ</div>
   </div>
 
   <div class="addr">http://{{ip}}:{{port}}</div>
@@ -71,22 +156,19 @@ function copyQQ(){
   alert("QQ 已复制");
 }
 
-/* 隐藏管理员入口：长按 Logo 2 秒 */
+/* 隐藏入口：长按 Logo 2 秒 */
 let timer;
 const logo = document.getElementById("logo");
 
 ["touchstart","mousedown"].forEach(e=>{
   logo.addEventListener(e,()=>{
-    timer = setTimeout(()=>{
-      location.href="/admin";
-    },2000);
+    timer=setTimeout(()=>location.href="/admin",2000);
   });
 });
-
 ["touchend","mouseup","mouseleave"].forEach(e=>{
   logo.addEventListener(e,()=>clearTimeout(timer));
 });
 </script>
+
 </body>
 </html>
-"""
